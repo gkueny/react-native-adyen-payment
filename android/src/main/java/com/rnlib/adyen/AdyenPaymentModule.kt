@@ -78,7 +78,7 @@ class AdyenPaymentModule(private var reactContext : ReactApplicationContext) : R
     private var emitEvent : Boolean = false
 
     private val mActivityEventListener = object:BaseActivityEventListener() {
-        override fun onActivityResult(activity:Activity, requestCode:Int, resultCode:Int, data:Intent) {
+        override fun onActivityResult(activity:Activity, requestCode:Int, resultCode:Int, data:Intent?) {
             parseActivityResult(requestCode, resultCode, data)
         }
     }
