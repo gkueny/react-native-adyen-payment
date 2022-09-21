@@ -78,7 +78,7 @@ class AdyenPaymentModule(private var reactContext : ReactApplicationContext) : R
     private var emitEvent : Boolean = false
 
     private val mActivityEventListener = object:BaseActivityEventListener() {
-        override fun onActivityResult(activity:Activity, requestCode:Int, resultCode:Int, data:Intent) {
+        override fun onActivityResult(activity:Activity, requestCode:Int, resultCode:Int, data:Intent?) {
             parseActivityResult(requestCode, resultCode, data)
         }
     }
@@ -366,6 +366,7 @@ class AdyenPaymentModule(private var reactContext : ReactApplicationContext) : R
         val cardComponent : JSONObject = componentData.getJSONObject(PaymentMethodTypes.SCHEME)
         val cardConfiguration = CardConfiguration.Builder(context, cardComponent.getString("card_public_key"))
                             .setShopperReference(paymentData.getString("shopperReference"))
+                            .setHolderNameRequire(cardComponent.optBoolean("showsHolderNameField"))
                             .build()
         val configBuilder : AdyenComponentConfiguration.Builder = createConfigurationBuilder(context)
         configBuilder.addCardConfiguration(cardConfiguration)
@@ -448,6 +449,7 @@ class AdyenPaymentModule(private var reactContext : ReactApplicationContext) : R
                             .setShopperReference(paymentData.getString("shopperReference"))
                             .setShopperLocale(shopperLocale)
                             .setHolderNameRequire(cardComponent.optBoolean("holderNameRequire"))
+                            .setHolderNameRequire(cardComponent.optBoolean("showsHolderNameField"))
                             .setShowStorePaymentField(cardComponent.optBoolean("showStorePaymentField"))
                             .build()
 
